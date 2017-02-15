@@ -4,6 +4,36 @@ import Order from './Order';
 import Inventory from './Inventory';
 
 class App extends React.Component {
+  // we can't use this until super is called, because we have to initalize component first
+  constructor(){
+    super();
+    // bind addFish method to app
+    this.addFish = this.addFish.bind(this);
+    // get initial state
+    this.state = {
+      // you could use an array for fishes instead of an object
+      // it's empty to start with
+      fishes: {},
+      order: {}
+    };
+  }
+
+  addFish(fish) {
+    // update our state
+    const fishes = {...this.state.fishes}
+    // add in our new fish
+    // use timestamp as a key
+    const timestamp = Date.now();
+    fishes[`fish-${timestamp}`] = fish;
+    // set state
+    // we have to explicitly tell React which state we would like to update
+    // then React will find anywhere in the DOM we use that state and update it
+    // Note: this is the same thing as this.setState({ fishes:fishes })
+    this.setState({ fishes })
+  }
+
+
+
 
   render() {
 
@@ -13,7 +43,8 @@ class App extends React.Component {
           <Header tagline="Fresh Seafood Market"/>
         </div>
         <Order/>
-        <Inventory/>
+        {/* We're passing addFish down to Inventory */}
+        <Inventory addFish={this.addFish} />
 
       </div>
     )
