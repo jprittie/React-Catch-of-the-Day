@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
+import sampleFishes from '../sample-fishes';
 
 class App extends React.Component {
   // we can't use this until super is called, because we have to initalize component first
@@ -9,6 +10,7 @@ class App extends React.Component {
     super();
     // bind addFish method to app
     this.addFish = this.addFish.bind(this);
+    this.loadSamples = this.loadSamples.bind(this);
     // get initial state
     this.state = {
       // you could use an array for fishes instead of an object
@@ -32,6 +34,13 @@ class App extends React.Component {
     this.setState({ fishes })
   }
 
+  // just like addFish, we have to pass this down to Inventory component via props
+  loadSamples() {
+    this.setState({
+      fishes: sampleFishes
+    });
+  }
+
 
 
 
@@ -43,8 +52,8 @@ class App extends React.Component {
           <Header tagline="Fresh Seafood Market"/>
         </div>
         <Order/>
-        {/* We're passing addFish down to Inventory */}
-        <Inventory addFish={this.addFish} />
+        {/* We're passing addFish and loadSamples down to Inventory */}
+        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
 
       </div>
     )
